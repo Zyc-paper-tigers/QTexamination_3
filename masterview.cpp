@@ -93,3 +93,38 @@ void MasterView::on_btBack_clicked()
     goPreviousView();
 }
 
+
+void MasterView::on_stackedWidget_currentChanged(int arg1)
+{
+    int count = ui->stackedWidget->count();
+    if (count > 1){
+        ui->btBack->setEnabled(true);
+    }else {
+        ui->btBack->setEnabled(false);
+    }
+
+ // 判断当前是否为登录界面，如果是则强制禁用返回按钮
+    QWidget *currentWidget = ui->stackedWidget->currentWidget();
+    if (qobject_cast<LoginView*>(currentWidget)) {
+        ui->btBack->setEnabled(false);
+    } else {
+        // 非登录界面按原有逻辑判断
+        ui->btBack->setEnabled(count > 1);
+    }
+
+    QString title = ui->stackedWidget->currentWidget()->windowTitle();
+
+    if(title == "欢迎"){
+        ui->btLogout->setEnabled(true);
+        ui->btBack->setEnabled(false);
+    }else{
+        ui->btLogout->setEnabled(false);
+    }
+}
+
+
+void MasterView::on_btLogout_clicked()
+{
+    goPreviousView();
+}
+
