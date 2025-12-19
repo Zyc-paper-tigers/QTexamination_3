@@ -49,17 +49,12 @@ bool IDatabase::searchPatient(QString filter)
 
 bool IDatabase::deleteCurrentPatient()
 {
-    // 检查当前索引是否有效（是否有选中行）
-    QModelIndex curIndex = thePatientSelection->currentIndex();
-    if (!curIndex.isValid()) {
-        return false; // 无选中行，直接返回
-    }
-
-    // 执行删除操作
+    QModelIndex curIndex = thePatientSelection->currentIndex();//获取当前选择单元格的模型索引
     patientTabModel->removeRow(curIndex.row());
-    bool result = patientTabModel->submitAll(); // 获取提交结果
-    patientTabModel->select(); // 刷新数据
-    return result; // 返回操作结果
+    patientTabModel->submitAll();
+    patientTabModel->select();
+
+    return true;
 }
 
 bool IDatabase::submitPatientEdit()
