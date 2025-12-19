@@ -25,6 +25,30 @@ bool IDatabase::initPatientModel()
     return true;
 }
 
+bool IDatabase::searchPatient(QString filter)
+{
+    patientTabModel->setFilter(filter);
+    return patientTabModel->select();
+}
+
+bool IDatabase::deleteCurrentPatient()
+{
+    QModelIndex curIndex = thePatientSelection->currentIndex();//获取当前选择单元格的模型索引
+    patientTabModel->removeRow(curIndex.row());
+    patientTabModel->submitAll();
+    patientTabModel->select();
+}
+
+bool IDatabase::submitPatientEdit()
+{
+    return patientTabModel->submitAll();
+}
+
+void IDatabase::revertPatientEdit()
+{
+    patientTabModel->revertAll();
+}
+
 QString IDatabase::userLogin(QString userName, QString password)
 {
 //    return "LoginOK"
